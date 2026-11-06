@@ -30,10 +30,10 @@ function StarField() {
   );
   return (
     <>
-      {/* Base gradient background — Compares TCG palette */}
-      <div className="bg-compares" />
-      {/* Stars layer */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* Dark overlay over the map background */}
+      <div className="bg-overlay" />
+      {/* Stars */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
         {stars.current.map((s, i) => (
           <div
             key={i}
@@ -323,11 +323,11 @@ export default function HomePage() {
   const remainingSpins = spinsAvailable - spinsThisRound;
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center pb-16">
+    <main className="relative min-h-screen flex flex-col items-center pb-16" style={{ zIndex: 2 }}>
       <StarField />
       {phase === "summary" && <Confetti />}
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-4 pt-8 flex flex-col items-center gap-7">
+      <div className="relative w-full max-w-4xl mx-auto px-4 pt-8 flex flex-col items-center gap-7" style={{ zIndex: 10 }}>
         <Logo />
 
         {/* ── CONFIG ────────────────────────────────────────────── */}

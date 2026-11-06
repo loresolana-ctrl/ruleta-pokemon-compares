@@ -12,29 +12,24 @@
 * { box-sizing: border-box; }
 
 body {
-  background-color: var(--bg-deep);
+  background-color: #000;
+  background-image: url('/bg-map.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: white;
   font-family: var(--font-nunito), sans-serif;
   overflow-x: hidden;
 }
 
-/* Pokémon city map background */
-.bg-compares {
+/* Dark overlay so text is readable over the map */
+.bg-overlay {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: url('/bg-map.png');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  image-rendering: pixelated;
-}
-.bg-compares::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.70);
+  background: rgba(0, 0, 0, 0.62);
 }
 
 /* Stars */
