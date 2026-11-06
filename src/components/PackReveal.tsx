@@ -30,9 +30,9 @@ export default function PackReveal({ pack, onEdit, onClose }: PackRevealProps) {
         <span style={{ fontSize: 36 }}>🎁</span>
         <div>
           <div className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "2rem", letterSpacing: "0.06em", lineHeight: 1 }}>
-            SOBRE #{pack.number}
+            PREMIO #{pack.number}
           </div>
-          <div className="text-white/40 text-xs text-center">¡ABIERTO!</div>
+          <div className="text-white/40 text-xs text-center">¡GANADO!</div>
         </div>
       </div>
 

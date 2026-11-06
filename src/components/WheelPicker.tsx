@@ -88,7 +88,7 @@ export default function WheelPicker({ availablePacks, onWinner, disabled }: Prop
           className="rounded-full flex items-center justify-center"
           style={{ width: size, height: size, border: "3px solid rgba(255,215,0,0.2)", background: "rgba(255,255,255,0.03)" }}
         >
-          <span className="text-white/30 text-sm">¡Todos los sobres abiertos!</span>
+          <span className="text-white/30 text-sm">¡Todos los premios entregados!</span>
         </div>
       </div>
     );
@@ -235,15 +235,15 @@ export default function WheelPicker({ availablePacks, onWinner, disabled }: Prop
         }}
       >
         {hasWinner
-          ? `¡SOBRE #${winner!.number} SELECCIONADO!`
+          ? `¡PREMIO #${winner!.number} SELECCIONADO!`
           : isSpinning
           ? "GIRANDO…"
-          : `${n} SOBRE${n !== 1 ? "S" : ""} DISPONIBLE${n !== 1 ? "S" : ""}`}
+          : `${n} PREMIO${n !== 1 ? "S" : ""} DISPONIBLE${n !== 1 ? "S" : ""}`}
       </div>
 
       {n > MAX_SEGS && !isSpinning && !hasWinner && (
         <div className="text-white/25 text-xs -mt-3">
-          Mostrando {seg} de {n} sobres — el ganador se elige entre todos
+          Mostrando {seg} de {n} premios — el ganador se elige entre todos
         </div>
       )}
 

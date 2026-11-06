@@ -18,18 +18,23 @@ body {
   overflow-x: hidden;
 }
 
-/* Background: Compares TCG palette — negro, dorado, azul, rojo Pokéball */
+/* Pokémon city map background */
 .bg-compares {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 55% 45% at 50% 0%,   rgba(204,34,0,0.22)   0%, transparent 65%),
-    radial-gradient(ellipse 70% 40% at 0%   60%,  rgba(30,58,138,0.28)  0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 100% 60%,  rgba(30,58,138,0.28)  0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 50% 100%,  rgba(255,215,0,0.12)  0%, transparent 65%),
-    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(10,5,20,0.95)    0%, #000 100%);
+  background-image: url('/bg-map.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  image-rendering: pixelated;
+}
+.bg-compares::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.70);
 }
 
 /* Stars */

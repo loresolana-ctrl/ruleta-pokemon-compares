@@ -45,7 +45,7 @@ export default function PackGrid({ packs, highlightedNumber, onEditPack }: PackG
           return (
             <div
               key={pack.number}
-              title={pack.content ? `#${pack.number}: ${pack.content}` : `Sobre #${pack.number}`}
+              title={pack.content ? `#${pack.number}: ${pack.content}` : `Premio #${pack.number}`}
               className="relative flex items-center justify-center rounded cursor-pointer select-none transition-all"
               style={{
                 width: tileSize,

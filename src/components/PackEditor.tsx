@@ -60,10 +60,10 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1.8rem", letterSpacing: "0.06em" }}>
-            EDITAR SOBRES
+            EDITAR PREMIOS
           </h2>
           <p className="text-white/40 text-sm mt-0.5">
-            {filledCount}/{packs.length} sobres con contenido
+            {filledCount}/{packs.length} premios con contenido
           </p>
         </div>
         <div className="flex gap-2 flex-wrap">
@@ -90,7 +90,7 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
           <input
             className="flex-1 bg-transparent text-white text-sm px-3 py-2 rounded-lg"
             style={{ border: "1px solid rgba(255,215,0,0.3)", outline: "none" }}
-            placeholder="Contenido para todos los sobres…"
+            placeholder="Contenido para todos los premios…"
             value={bulkText}
             onChange={(e) => setBulkText(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && applyBulk()}
@@ -106,7 +106,7 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
         <input
           className="flex-1 bg-transparent text-white text-sm px-3 py-2 rounded-lg"
           style={{ border: "1px solid rgba(255,255,255,0.15)", outline: "none" }}
-          placeholder="Buscar número de sobre…"
+          placeholder="Buscar número de premio…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -162,7 +162,7 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
                 outline: "none",
                 transition: "border-color 0.2s",
               }}
-              placeholder={`Contenido del sobre #${pack.number}…`}
+              placeholder={`Contenido del premio #${pack.number}…`}
               value={pack.content}
               onChange={(e) => updatePack(pack.number, "content", e.target.value)}
               onFocus={(e) => (e.target.style.borderColor = "rgba(255,215,0,0.5)")}

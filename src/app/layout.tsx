@@ -15,7 +15,7 @@ const nunito = Nunito({
 
 export const metadata: Metadata = {
   title: "Ruleta Pokémon — 30 Aniversario",
-  description: "¡Abre sobres sorpresa con la ruleta del 30 aniversario!",
+  description: "¡Gana premios sorpresa con la ruleta del 30 aniversario!",
 };
 
 interface LayoutProps {

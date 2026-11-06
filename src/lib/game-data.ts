@@ -24,7 +24,7 @@ export const PRICE_OPTIONS: PriceOption[] = [
 export function createPacks(count: number): Pack[] {
   return Array.from({ length: count }, (_, i) => ({
     number: i + 1,
-    label: `Sobre #${i + 1}`,
+    label: `Premio #${i + 1}`,
     content: "",
     isOpened: false,
   }));

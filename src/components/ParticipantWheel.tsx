@@ -281,13 +281,13 @@ export default function ParticipantWheel({ participants, onParticipantsChange, o
               <div style={{ fontFamily: "var(--font-bangers)", fontSize: "2rem", color: "#FFD700", letterSpacing: "0.06em" }}>
                 {winner}
               </div>
-              <div className="text-white/50 text-sm">¡Ganó este sobre!</div>
+              <div className="text-white/50 text-sm">¡Ganó este premio!</div>
               <button
                 className="btn-pokemon w-full py-2.5 rounded-xl mt-1"
                 style={{ fontSize: "1.2rem", letterSpacing: "0.08em" }}
                 onClick={() => { onResult(winner!); setWinner(null); }}
               >
-                ABRIR SOBRE →
+                ABRIR PREMIO →
               </button>
             </div>
           )}

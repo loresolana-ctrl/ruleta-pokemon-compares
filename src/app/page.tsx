@@ -148,7 +148,7 @@ function Logo() {
       >
         <span style={{ fontSize: 13 }}>🏆</span>
         <span className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", letterSpacing: "0.1em" }}>
-          30 ANIVERSARIO — SUBASTA DE SOBRES
+          30 ANIVERSARIO — SUBASTA DE PREMIOS
         </span>
         <span style={{ fontSize: 13 }}>🏆</span>
       </div>
@@ -338,7 +338,7 @@ export default function HomePage() {
             </h2>
 
             <div className="flex flex-col sm:flex-row gap-8 justify-center w-full">
-              <StepControl label="Total de sobres" value={totalPacks} min={1} max={1000} onChange={setTotalPacks} />
+              <StepControl label="Total de premios" value={totalPacks} min={1} max={1000} onChange={setTotalPacks} />
               <StepControl label="Tiros por ronda" value={spinsPerRound} min={1} max={20} onChange={setSpinsPerRound} />
             </div>
 
@@ -363,7 +363,7 @@ export default function HomePage() {
 
             {withBonus && (
               <p className="text-white/40 text-xs text-center -mt-4">
-                Antes de cada sobre (excepto el último), sortea entre los participantes quién lo gana. Puedes editar los nombres en vivo durante el juego.
+                Antes de cada premio (excepto el último), sortea entre los participantes quién lo gana. Puedes editar los nombres en vivo durante el juego.
               </p>
             )}
 
@@ -372,7 +372,7 @@ export default function HomePage() {
               style={{ fontSize: "1.8rem", letterSpacing: "0.1em" }}
               onClick={startConfig}
             >
-              CONFIGURAR SOBRES →
+              CONFIGURAR PREMIOS →
             </button>
           </div>
         )}
@@ -407,7 +407,7 @@ export default function HomePage() {
                 </div>
                 <div className="w-px h-8 bg-white/10" />
                 <div>
-                  <div className="text-white/40 text-xs uppercase tracking-widest">Sobres</div>
+                  <div className="text-white/40 text-xs uppercase tracking-widest">Premios</div>
                   <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.4rem", color: "#4ade80", letterSpacing: "0.05em" }}>
                     {unopened.length} / {packs.length}
                   </div>
@@ -419,7 +419,7 @@ export default function HomePage() {
                   style={{ border: "1px solid rgba(255,215,0,0.3)", color: "#FFD700", background: "transparent" }}
                   onClick={() => setPhase("editor")}
                 >
-                  ✏️ Editar sobres
+                  ✏️ Editar premios
                 </button>
                 <button
                   className="text-xs px-3 py-1.5 rounded-lg opacity-60 hover:opacity-100 transition-opacity"
@@ -449,7 +449,7 @@ export default function HomePage() {
             {/* History */}
             {history.length > 0 && (
               <div className="w-full glass-panel p-4">
-                <div className="text-white/40 text-xs uppercase tracking-widest mb-2">Sobres abiertos esta sesión</div>
+                <div className="text-white/40 text-xs uppercase tracking-widest mb-2">Premios entregados esta sesión</div>
                 <div className="flex flex-wrap gap-2">
                   {[...history].reverse().map((h, i) => (
                     <div
@@ -522,7 +522,7 @@ export default function HomePage() {
               <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "clamp(1.8rem, 5vw, 2.8rem)", letterSpacing: "0.06em" }}>
                 🏆 ¡SUBASTA COMPLETADA! 🏆
               </h2>
-              <p className="text-white/50 mt-1">{history.length} sobre{history.length !== 1 ? "s" : ""} abierto{history.length !== 1 ? "s" : ""} en {currentRound} ronda{currentRound !== 1 ? "s" : ""}</p>
+              <p className="text-white/50 mt-1">{history.length} premio{history.length !== 1 ? "s" : ""} entregado{history.length !== 1 ? "s" : ""} en {currentRound} ronda{currentRound !== 1 ? "s" : ""}</p>
             </div>
 
             {/* History table */}
@@ -531,7 +531,7 @@ export default function HomePage() {
                 <thead>
                   <tr style={{ borderBottom: "1px solid rgba(255,215,0,0.2)" }}>
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Tiro</th>
-                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Sobre</th>
+                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Premio</th>
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ronda</th>
                     {history.some((h) => h.winner) && (
                       <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ganador</th>
@@ -551,7 +551,7 @@ export default function HomePage() {
                       </td>
                       <td className="px-5 py-3">
                         <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.2rem", color: "#FFD700", letterSpacing: "0.04em" }}>
-                          SOBRE {h.packNumber}
+                          PREMIO {h.packNumber}
                         </span>
                       </td>
                       <td className="px-5 py-3">
@@ -585,7 +585,7 @@ export default function HomePage() {
             {packs.filter((p) => !p.isOpened).length > 0 && (
               <div className="w-full">
                 <div className="text-white/40 text-xs uppercase tracking-widest mb-3 text-center">
-                  Sobres sin abrir ({packs.filter((p) => !p.isOpened).length})
+                  Premios sin entregar ({packs.filter((p) => !p.isOpened).length})
                 </div>
                 <div className="flex flex-wrap gap-2 justify-center">
                   {packs.filter((p) => !p.isOpened).map((p) => (
@@ -622,14 +622,14 @@ export default function HomePage() {
           <div className="glass-panel p-6 w-full max-w-sm flex flex-col gap-4">
             <div className="flex items-center justify-between">
               <div className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1.4rem", letterSpacing: "0.06em" }}>
-                SOBRE #{editModalPack}
+                PREMIO #{editModalPack}
               </div>
               <button className="text-white/50 hover:text-white text-xl" onClick={() => setEditModalPack(null)}>✕</button>
             </div>
             <textarea
               className="w-full bg-transparent text-white text-sm resize-none px-3 py-2 rounded-lg"
               style={{ border: "1px solid rgba(255,215,0,0.4)", outline: "none", minHeight: 80 }}
-              placeholder="Contenido del sobre…"
+              placeholder="Contenido del premio…"
               value={editModalValue}
               onChange={(e) => setEditModalValue(e.target.value)}
               autoFocus
