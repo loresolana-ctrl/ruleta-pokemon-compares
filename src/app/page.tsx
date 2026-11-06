@@ -20,41 +20,36 @@ interface SpinRecord {
 // ─── Stars ───────────────────────────────────────────────────────────────────
 function StarField() {
   const stars = useRef(
-    Array.from({ length: 120 }, () => ({
+    Array.from({ length: 100 }, () => ({
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 2.5 + 0.5,
+      size: Math.random() * 2 + 0.5,
       dur: Math.random() * 4 + 2,
       del: Math.random() * 4,
     }))
   );
   return (
-    <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-      {stars.current.map((s, i) => (
-        <div
-          key={i}
-          className="star"
-          style={{
-            left: `${s.x}%`,
-            top: `${s.y}%`,
-            width: s.size,
-            height: s.size,
-            "--duration": `${s.dur}s`,
-            "--delay": `${s.del}s`,
-          } as React.CSSProperties}
-        />
-      ))}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `
-            radial-gradient(ellipse 60% 40% at 20% 30%, rgba(59,76,202,0.12) 0%, transparent 70%),
-            radial-gradient(ellipse 50% 35% at 80% 70%, rgba(204,34,0,0.1) 0%, transparent 70%),
-            radial-gradient(ellipse 70% 50% at 50% 50%, rgba(184,134,11,0.06) 0%, transparent 70%)
-          `,
-        }}
-      />
-    </div>
+    <>
+      {/* Base gradient background — Compares TCG palette */}
+      <div className="bg-compares" />
+      {/* Stars layer */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {stars.current.map((s, i) => (
+          <div
+            key={i}
+            className="star"
+            style={{
+              left: `${s.x}%`,
+              top: `${s.y}%`,
+              width: s.size,
+              height: s.size,
+              "--duration": `${s.dur}s`,
+              "--delay": `${s.del}s`,
+            } as React.CSSProperties}
+          />
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -94,35 +89,76 @@ function Confetti() {
 // ─── Logo ─────────────────────────────────────────────────────────────────────
 function Logo() {
   return (
-    <div className="flex flex-col items-center gap-1">
-      <div className="flex items-center gap-3">
-        <span style={{ fontSize: 28 }}>⚡</span>
+    <div className="flex flex-col items-center gap-3">
+      {/* Compares TCG logo image */}
+      <div
+        className="relative"
+        style={{
+          filter: "drop-shadow(0 0 24px rgba(255,215,0,0.5)) drop-shadow(0 0 48px rgba(204,34,0,0.3))",
+          animation: "logo-float 4s ease-in-out infinite",
+        }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/logo.jpg"
+          alt="Compares TCG"
+          style={{
+            width: "clamp(130px, 22vw, 190px)",
+            height: "clamp(130px, 22vw, 190px)",
+            borderRadius: "50%",
+            border: "3px solid rgba(255,215,0,0.7)",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+        {/* Gold ring glow */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            boxShadow: "0 0 0 3px rgba(255,215,0,0.25), 0 0 40px rgba(255,215,0,0.2)",
+            borderRadius: "50%",
+          }}
+        />
+      </div>
+
+      {/* Title */}
+      <div className="flex items-center gap-2">
+        <span style={{ fontSize: 22 }}>⚡</span>
         <h1
           className="text-gold"
           style={{
             fontFamily: "var(--font-bangers)",
-            fontSize: "clamp(2rem, 6vw, 3.5rem)",
-            letterSpacing: "0.06em",
+            fontSize: "clamp(1.6rem, 5vw, 2.8rem)",
+            letterSpacing: "0.08em",
             lineHeight: 1,
           }}
         >
           RULETA POKÉMON
         </h1>
-        <span style={{ fontSize: 28 }}>⚡</span>
+        <span style={{ fontSize: 22 }}>⚡</span>
       </div>
+
+      {/* Subtitle badge */}
       <div
         className="flex items-center gap-2 px-4 py-1 rounded-full"
         style={{
-          background: "linear-gradient(90deg, rgba(184,134,11,0.2), rgba(255,215,0,0.3), rgba(184,134,11,0.2))",
-          border: "1px solid rgba(255,215,0,0.4)",
+          background: "linear-gradient(90deg, rgba(204,34,0,0.15), rgba(255,215,0,0.2), rgba(30,58,138,0.15))",
+          border: "1px solid rgba(255,215,0,0.35)",
         }}
       >
-        <span style={{ fontSize: 14 }}>🏆</span>
-        <span className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1.1rem", letterSpacing: "0.1em" }}>
+        <span style={{ fontSize: 13 }}>🏆</span>
+        <span className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", letterSpacing: "0.1em" }}>
           30 ANIVERSARIO — SUBASTA DE SOBRES
         </span>
-        <span style={{ fontSize: 14 }}>🏆</span>
+        <span style={{ fontSize: 13 }}>🏆</span>
       </div>
+
+      <style>{`
+        @keyframes logo-float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-8px); }
+        }
+      `}</style>
     </div>
   );
 }

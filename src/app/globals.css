@@ -4,9 +4,9 @@
   --pokemon-gold: #FFD700;
   --pokemon-gold-dark: #B8860B;
   --pokemon-red: #CC2200;
-  --pokemon-blue: #3B4CCA;
+  --pokemon-blue: #1E3A8A;
   --pokemon-yellow: #FFDE00;
-  --bg-deep: #05050F;
+  --bg-deep: #000000;
 }
 
 * { box-sizing: border-box; }
@@ -16,6 +16,20 @@ body {
   color: white;
   font-family: var(--font-nunito), sans-serif;
   overflow-x: hidden;
+}
+
+/* Background: Compares TCG palette — negro, dorado, azul, rojo Pokéball */
+.bg-compares {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 0%,   rgba(204,34,0,0.22)   0%, transparent 65%),
+    radial-gradient(ellipse 70% 40% at 0%   60%,  rgba(30,58,138,0.28)  0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 100% 60%,  rgba(30,58,138,0.28)  0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 50% 100%,  rgba(255,215,0,0.12)  0%, transparent 65%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(10,5,20,0.95)    0%, #000 100%);
 }
 
 /* Stars */
