@@ -2,10 +2,10 @@
 import { useState, useRef, useCallback } from "react";
 import { Pack, createPacks, getUnopenedPacks } from "@/lib/game-data";
 import PackEditor from "@/components/PackEditor";
-import CarouselPicker from "@/components/CarouselPicker";
+import WheelPicker from "@/components/WheelPicker";
 import PackGrid from "@/components/PackGrid";
 import PackReveal from "@/components/PackReveal";
-import BonusWheel from "@/components/BonusWheel";
+import ParticipantWheel from "@/components/ParticipantWheel";
 
 type Phase = "config" | "editor" | "game" | "bonus" | "reveal" | "summary";
 
@@ -14,7 +14,7 @@ interface SpinRecord {
   content: string;
   spinIndex: number;
   roundIndex: number;
-  price?: number;
+  winner?: string;
 }
 
 // ─── Stars ───────────────────────────────────────────────────────────────────
@@ -172,13 +172,14 @@ export default function HomePage() {
   const [currentRound, setCurrentRound] = useState(1);
   const [spinsThisRound, setSpinsThisRound] = useState(0);
   const [spinsAvailable, setSpinsAvailable] = useState(1);
-  const [extraSpinsNext, setExtraSpinsNext] = useState(0);
   const [highlightedPack, setHighlightedPack] = useState<number | null>(null);
   const [currentPack, setCurrentPack] = useState<Pack | null>(null);
   const [history, setHistory] = useState<SpinRecord[]>([]);
   const [spinIndex, setSpinIndex] = useState(0);
+  const [currentWinner, setCurrentWinner] = useState<string | null>(null);
 
-  const [currentPrice, setCurrentPrice] = useState<number | null>(null);
+  // Participants persist across all rounds
+  const [participants, setParticipants] = useState<string[]>([]);
 
   // Quick edit modal
   const [editModalPack, setEditModalPack] = useState<number | null>(null);
@@ -194,11 +195,11 @@ export default function HomePage() {
     setCurrentRound(1);
     setSpinsThisRound(0);
     setSpinsAvailable(spinsPerRound);
-    setExtraSpinsNext(0);
     setHighlightedPack(null);
     setCurrentPack(null);
     setHistory([]);
     setSpinIndex(0);
+    setCurrentWinner(null);
     setPhase("game");
   }, [spinsPerRound]);
 
@@ -208,7 +209,7 @@ export default function HomePage() {
     setCurrentPack(pack);
     setSpinIndex((s) => s + 1);
     if (withBonus && !isLastPack) {
-      setCurrentPrice(null);
+      setCurrentWinner(null);
       setTimeout(() => setPhase("bonus"), 800);
     } else {
       setTimeout(() => setPhase("reveal"), 800);
@@ -227,14 +228,14 @@ export default function HomePage() {
 
     setHistory((h) => [
       ...h,
-      { packNumber: currentPack.number, content: currentPack.content, spinIndex, roundIndex: currentRound, price: currentPrice ?? undefined },
+      { packNumber: currentPack.number, content: currentPack.content, spinIndex, roundIndex: currentRound, winner: currentWinner ?? undefined },
     ]);
 
     const newSpinsThisRound = spinsThisRound + 1;
     setSpinsThisRound(newSpinsThisRound);
     setHighlightedPack(null);
     setCurrentPack(null);
-    setCurrentPrice(null);
+    setCurrentWinner(null);
 
     const unopened = updatedPacks.filter((p) => !p.isOpened);
     if (unopened.length === 0) {
@@ -246,21 +247,19 @@ export default function HomePage() {
     if (remainingSpins > 0) {
       setPhase("game");
     } else {
-      startNextRound(0);
+      startNextRound();
     }
-  }, [currentPack, packs, spinIndex, spinsThisRound, spinsAvailable, currentRound, currentPrice]);
+  }, [currentPack, packs, spinIndex, spinsThisRound, spinsAvailable, currentRound, currentWinner]);
 
-  const handlePriceResult = useCallback((price: number) => {
-    setCurrentPrice(price);
+  const handleParticipantResult = useCallback((winnerName: string) => {
+    setCurrentWinner(winnerName);
     setPhase("reveal");
   }, []);
 
-  const startNextRound = useCallback((extra: number) => {
-    const newSpins = spinsPerRound + extra;
+  const startNextRound = useCallback(() => {
     setCurrentRound((r) => r + 1);
     setSpinsThisRound(0);
-    setSpinsAvailable(newSpins);
-    setExtraSpinsNext(0);
+    setSpinsAvailable(spinsPerRound);
     setPhase("game");
   }, [spinsPerRound]);
 
@@ -322,13 +321,13 @@ export default function HomePage() {
                 {withBonus && <span className="text-black font-bold" style={{ fontSize: 12 }}>✓</span>}
               </div>
               <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.1rem", letterSpacing: "0.05em", color: withBonus ? "#FFD700" : "rgba(255,255,255,0.5)" }}>
-                💰 Ruleta de precios (opcional)
+                🎫 Ruleta de participantes (opcional)
               </span>
             </button>
 
             {withBonus && (
               <p className="text-white/40 text-xs text-center -mt-4">
-                Antes de cada sobre (excepto el último), gira la ruleta para revelar su precio: $80, $120 o $140 pesos.
+                Antes de cada sobre (excepto el último), sortea entre los participantes quién lo gana. Puedes editar los nombres en vivo durante el juego.
               </p>
             )}
 
@@ -396,8 +395,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Carousel picker */}
-            <CarouselPicker
+            {/* Circular wheel picker */}
+            <WheelPicker
               availablePacks={unopened}
               allPacks={packs}
               onWinner={handleWinner}
@@ -423,8 +422,11 @@ export default function HomePage() {
                       style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.25)", color: "#FFD700" }}
                     >
                       <span style={{ fontFamily: "var(--font-bangers)" }}>#{h.packNumber}</span>
+                      {h.winner && (
+                        <span className="text-white/60">→ {h.winner}</span>
+                      )}
                       {h.content && (
-                        <span className="text-white/50" style={{ maxWidth: 120, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                        <span className="text-white/40" style={{ maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                           {h.content}
                         </span>
                       )}
@@ -439,24 +441,24 @@ export default function HomePage() {
         {/* ── REVEAL ────────────────────────────────────────────── */}
         {phase === "reveal" && currentPack && (
           <div className="flex flex-col items-center gap-3 w-full max-w-md mx-auto">
-            {currentPrice !== null && (
+            {currentWinner && (
               <div
-                className="flex items-center gap-2 px-5 py-2 rounded-full"
+                className="flex items-center gap-2 px-5 py-2 rounded-full winner-glow"
                 style={{
-                  background: `${currentPrice === 80 ? "rgba(34,197,94,0.15)" : currentPrice === 120 ? "rgba(245,158,11,0.15)" : "rgba(239,68,68,0.15)"}`,
-                  border: `2px solid ${currentPrice === 80 ? "#22C55E" : currentPrice === 120 ? "#F59E0B" : "#EF4444"}`,
+                  background: "rgba(255,215,0,0.12)",
+                  border: "2px solid #FFD700",
                 }}
               >
-                <span style={{ fontSize: 18 }}>{currentPrice === 80 ? "💚" : currentPrice === 120 ? "💛" : "❤️"}</span>
+                <span style={{ fontSize: 20 }}>🏆</span>
                 <span
                   style={{
                     fontFamily: "var(--font-bangers)",
-                    fontSize: "1.4rem",
+                    fontSize: "1.5rem",
                     letterSpacing: "0.06em",
-                    color: currentPrice === 80 ? "#22C55E" : currentPrice === 120 ? "#F59E0B" : "#EF4444",
+                    color: "#FFD700",
                   }}
                 >
-                  ${currentPrice} pesos
+                  {currentWinner}
                 </span>
               </div>
             )}
@@ -468,9 +470,13 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* ── BONUS ─────────────────────────────────────────────── */}
+        {/* ── BONUS (participant wheel) ──────────────────────────── */}
         {phase === "bonus" && (
-          <BonusWheel onResult={handlePriceResult} />
+          <ParticipantWheel
+            participants={participants}
+            onParticipantsChange={setParticipants}
+            onResult={handleParticipantResult}
+          />
         )}
 
         {/* ── SUMMARY ───────────────────────────────────────────── */}
@@ -491,8 +497,8 @@ export default function HomePage() {
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Tiro</th>
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Sobre</th>
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ronda</th>
-                    {history.some((h) => h.price) && (
-                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Precio</th>
+                    {history.some((h) => h.winner) && (
+                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ganador</th>
                     )}
                     <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Contenido</th>
                   </tr>
@@ -515,11 +521,11 @@ export default function HomePage() {
                       <td className="px-5 py-3">
                         <span className="text-white/50 text-sm">Ronda {h.roundIndex}</span>
                       </td>
-                      {history.some((r) => r.price) && (
+                      {history.some((r) => r.winner) && (
                         <td className="px-5 py-3">
-                          {h.price ? (
-                            <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.1rem", color: h.price === 80 ? "#22C55E" : h.price === 120 ? "#F59E0B" : "#EF4444", letterSpacing: "0.04em" }}>
-                              ${h.price}
+                          {h.winner ? (
+                            <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", color: "#FFD700", letterSpacing: "0.04em" }}>
+                              🏆 {h.winner}
                             </span>
                           ) : (
                             <span className="text-white/25 text-sm">—</span>
