@@ -13,23 +13,9 @@
 
 body {
   background-color: #000;
-  background-image: url('/bg-map.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   color: white;
   font-family: var(--font-nunito), sans-serif;
   overflow-x: hidden;
-}
-
-/* Dark overlay so text is readable over the map */
-.bg-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: rgba(0, 0, 0, 0.62);
 }
 
 /* Stars */

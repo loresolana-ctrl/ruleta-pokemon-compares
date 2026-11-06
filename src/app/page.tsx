@@ -29,27 +29,22 @@ function StarField() {
     }))
   );
   return (
-    <>
-      {/* Dark overlay over the map background */}
-      <div className="bg-overlay" />
-      {/* Stars */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
-        {stars.current.map((s, i) => (
-          <div
-            key={i}
-            className="star"
-            style={{
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              width: s.size,
-              height: s.size,
-              "--duration": `${s.dur}s`,
-              "--delay": `${s.del}s`,
-            } as React.CSSProperties}
-          />
-        ))}
-      </div>
-    </>
+    <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 1 }}>
+      {stars.current.map((s, i) => (
+        <div
+          key={i}
+          className="star"
+          style={{
+            left: `${s.x}%`,
+            top: `${s.y}%`,
+            width: s.size,
+            height: s.size,
+            "--duration": `${s.dur}s`,
+            "--delay": `${s.del}s`,
+          } as React.CSSProperties}
+        />
+      ))}
+    </div>
   );
 }
 
