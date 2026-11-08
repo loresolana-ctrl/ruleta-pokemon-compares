@@ -13,9 +13,10 @@ interface Props {
   allPacks: Pack[];
   onWinner: (pack: Pack) => void;
   disabled?: boolean;
+  wheelSize?: number;
 }
 
-export default function WheelPicker({ availablePacks, onWinner, disabled }: Props) {
+export default function WheelPicker({ availablePacks, onWinner, disabled, wheelSize }: Props) {
   const n = availablePacks.length;
   const [rotation, setRotation] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -72,11 +73,11 @@ export default function WheelPicker({ availablePacks, onWinner, disabled }: Prop
     }, 5200);
   }, [isSpinning, winner, n, availablePacks, rotation, disabled, onWinner]);
 
-  const size = 340;
+  const size = wheelSize ?? 300;
   const cx = size / 2;
   const cy = size / 2;
   const r = size / 2 - 12;
-  const innerR = 36;
+  const innerR = Math.round(36 * (size / 340));
   const seg = displayPacks.length;
   const hasWinner = winner !== null && !isSpinning;
   const fontSize = seg <= 10 ? 13 : seg <= 16 ? 10 : seg <= 24 ? 8 : 7;
@@ -120,7 +121,7 @@ export default function WheelPicker({ availablePacks, onWinner, disabled }: Prop
   });
 
   return (
-    <div className="flex flex-col items-center gap-5 w-full select-none">
+    <div className="flex flex-col items-center gap-3 w-full select-none">
       <div className="relative flex items-center justify-center">
         {/* Outer glow ring */}
         <div
@@ -249,8 +250,8 @@ export default function WheelPicker({ availablePacks, onWinner, disabled }: Prop
 
       {!hasWinner && (
         <button
-          className="btn-pokemon px-14 py-4 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed"
-          style={{ fontSize: "2.2rem", letterSpacing: "0.1em" }}
+          className="btn-pokemon px-10 py-3 rounded-2xl disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{ fontSize: "1.8rem", letterSpacing: "0.1em" }}
           onClick={spin}
           disabled={isSpinning || n === 0 || disabled}
         >

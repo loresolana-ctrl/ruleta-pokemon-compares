@@ -5,9 +5,10 @@ interface PackGridProps {
   packs: Pack[];
   highlightedNumber: number | null;
   onEditPack?: (number: number) => void;
+  fillHeight?: boolean;
 }
 
-export default function PackGrid({ packs, highlightedNumber, onEditPack }: PackGridProps) {
+export default function PackGrid({ packs, highlightedNumber, onEditPack, fillHeight }: PackGridProps) {
   const total = packs.length;
 
   // Tile size based on count
@@ -32,7 +33,7 @@ export default function PackGrid({ packs, highlightedNumber, onEditPack }: PackG
   return (
     <div
       className="glass-panel p-4 w-full"
-      style={{ maxHeight: 420, overflowY: "auto" }}
+      style={fillHeight ? { height: "100%", overflowY: "auto" } : { maxHeight: 420, overflowY: "auto" }}
     >
       <div
         className="flex flex-wrap"

@@ -81,79 +81,48 @@ function Confetti() {
   );
 }
 
-// ─── Logo ─────────────────────────────────────────────────────────────────────
+// ─── Logo (compact horizontal) ────────────────────────────────────────────────
 function Logo() {
   return (
-    <div className="flex flex-col items-center gap-3">
-      {/* Compares TCG logo image */}
-      <div
-        className="relative"
+    <div className="flex items-center gap-3">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/logo.jpg"
+        alt="Compares TCG"
         style={{
-          filter: "drop-shadow(0 0 24px rgba(255,215,0,0.5)) drop-shadow(0 0 48px rgba(204,34,0,0.3))",
-          animation: "logo-float 4s ease-in-out infinite",
+          width: 52,
+          height: 52,
+          borderRadius: "50%",
+          border: "2px solid rgba(255,215,0,0.7)",
+          objectFit: "cover",
+          flexShrink: 0,
+          filter: "drop-shadow(0 0 10px rgba(255,215,0,0.4))",
         }}
-      >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/logo.jpg"
-          alt="Compares TCG"
-          style={{
-            width: "clamp(130px, 22vw, 190px)",
-            height: "clamp(130px, 22vw, 190px)",
-            borderRadius: "50%",
-            border: "3px solid rgba(255,215,0,0.7)",
-            objectFit: "cover",
-            display: "block",
-          }}
-        />
-        {/* Gold ring glow */}
-        <div
-          className="absolute inset-0 rounded-full pointer-events-none"
-          style={{
-            boxShadow: "0 0 0 3px rgba(255,215,0,0.25), 0 0 40px rgba(255,215,0,0.2)",
-            borderRadius: "50%",
-          }}
-        />
-      </div>
-
-      {/* Title */}
-      <div className="flex items-center gap-2">
-        <span style={{ fontSize: 22 }}>⚡</span>
+      />
+      <div className="flex flex-col">
         <h1
           className="text-gold"
           style={{
             fontFamily: "var(--font-bangers)",
-            fontSize: "clamp(1.6rem, 5vw, 2.8rem)",
+            fontSize: "1.6rem",
             letterSpacing: "0.08em",
             lineHeight: 1,
           }}
         >
-          RULETA POKÉMON
+          ⚡ RULETA POKÉMON ⚡
         </h1>
-        <span style={{ fontSize: 22 }}>⚡</span>
-      </div>
-
-      {/* Subtitle badge */}
-      <div
-        className="flex items-center gap-2 px-4 py-1 rounded-full"
-        style={{
-          background: "linear-gradient(90deg, rgba(204,34,0,0.15), rgba(255,215,0,0.2), rgba(30,58,138,0.15))",
-          border: "1px solid rgba(255,215,0,0.35)",
-        }}
-      >
-        <span style={{ fontSize: 13 }}>🏆</span>
-        <span className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", letterSpacing: "0.1em" }}>
+        <div
+          className="text-gold"
+          style={{
+            fontFamily: "var(--font-bangers)",
+            fontSize: "0.72rem",
+            letterSpacing: "0.1em",
+            opacity: 0.65,
+          }}
+        >
           30 ANIVERSARIO — SUBASTA DE PREMIOS
-        </span>
-        <span style={{ fontSize: 13 }}>🏆</span>
+        </div>
       </div>
-
-      <style>{`
-        @keyframes logo-float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-      `}</style>
     </div>
   );
 }
@@ -318,92 +287,157 @@ export default function HomePage() {
   const remainingSpins = spinsAvailable - spinsThisRound;
 
   return (
-    <main className="relative min-h-screen flex flex-col items-center pb-16" style={{ zIndex: 2 }}>
+    <main
+      style={{
+        position: "relative",
+        height: "100vh",
+        overflow: "hidden",
+        zIndex: 2,
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <StarField />
       {phase === "summary" && <Confetti />}
 
-      <div className="relative w-full max-w-4xl mx-auto px-4 pt-8 flex flex-col items-center gap-7" style={{ zIndex: 10 }}>
+      {/* ── HEADER ───────────────────────────────────────── */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          flexShrink: 0,
+          padding: "9px 24px",
+          borderBottom: "1px solid rgba(255,215,0,0.12)",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Logo />
+      </div>
 
+      {/* ── CONTENT ──────────────────────────────────────── */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 10,
+          flex: 1,
+          minHeight: 0,
+          overflow: "hidden",
+          padding: "12px 24px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         {/* ── CONFIG ────────────────────────────────────────────── */}
         {phase === "config" && (
-          <div className="glass-panel w-full max-w-lg p-8 flex flex-col items-center gap-8">
-            <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1.8rem", letterSpacing: "0.06em" }}>
-              CONFIGURAR SUBASTA
-            </h2>
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflowY: "auto",
+            }}
+          >
+            <div className="glass-panel w-full max-w-lg p-6 flex flex-col items-center gap-6">
+              <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "1.6rem", letterSpacing: "0.06em" }}>
+                CONFIGURAR SUBASTA
+              </h2>
 
-            <div className="flex flex-col sm:flex-row gap-8 justify-center w-full">
-              <StepControl label="Total de premios" value={totalPacks} min={1} max={1000} onChange={setTotalPacks} />
-              <StepControl label="Tiros por ronda" value={spinsPerRound} min={1} max={20} onChange={setSpinsPerRound} />
-            </div>
-
-            <button
-              className="flex items-center gap-3 px-5 py-3 rounded-xl transition-all w-full justify-center"
-              style={{
-                background: withBonus ? "rgba(255,215,0,0.12)" : "rgba(255,255,255,0.04)",
-                border: `2px solid ${withBonus ? "rgba(255,215,0,0.6)" : "rgba(255,255,255,0.1)"}`,
-              }}
-              onClick={() => setWithBonus((v) => !v)}
-            >
-              <div
-                className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
-                style={{ background: withBonus ? "#FFD700" : "transparent", border: "2px solid rgba(255,215,0,0.6)" }}
-              >
-                {withBonus && <span className="text-black font-bold" style={{ fontSize: 12 }}>✓</span>}
+              <div className="flex flex-col sm:flex-row gap-6 justify-center w-full">
+                <StepControl label="Total de premios" value={totalPacks} min={1} max={1000} onChange={setTotalPacks} />
+                <StepControl label="Tiros por ronda" value={spinsPerRound} min={1} max={20} onChange={setSpinsPerRound} />
               </div>
-              <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.1rem", letterSpacing: "0.05em", color: withBonus ? "#FFD700" : "rgba(255,255,255,0.5)" }}>
-                🎫 Ruleta de participantes (opcional)
-              </span>
-            </button>
 
-            {withBonus && (
-              <p className="text-white/40 text-xs text-center -mt-4">
-                Antes de cada premio (excepto el último), sortea entre los participantes quién lo gana. Puedes editar los nombres en vivo durante el juego.
-              </p>
-            )}
+              <button
+                className="flex items-center gap-3 px-5 py-3 rounded-xl transition-all w-full justify-center"
+                style={{
+                  background: withBonus ? "rgba(255,215,0,0.12)" : "rgba(255,255,255,0.04)",
+                  border: `2px solid ${withBonus ? "rgba(255,215,0,0.6)" : "rgba(255,255,255,0.1)"}`,
+                }}
+                onClick={() => setWithBonus((v) => !v)}
+              >
+                <div
+                  className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0"
+                  style={{ background: withBonus ? "#FFD700" : "transparent", border: "2px solid rgba(255,215,0,0.6)" }}
+                >
+                  {withBonus && <span className="text-black font-bold" style={{ fontSize: 12 }}>✓</span>}
+                </div>
+                <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.1rem", letterSpacing: "0.05em", color: withBonus ? "#FFD700" : "rgba(255,255,255,0.5)" }}>
+                  🎫 Ruleta de participantes (opcional)
+                </span>
+              </button>
 
-            <button
-              className="btn-pokemon w-full py-4 rounded-2xl"
-              style={{ fontSize: "1.8rem", letterSpacing: "0.1em" }}
-              onClick={startConfig}
-            >
-              CONFIGURAR PREMIOS →
-            </button>
+              {withBonus && (
+                <p className="text-white/40 text-xs text-center -mt-3">
+                  Antes de cada premio (excepto el último), sortea entre los participantes quién lo gana. Puedes editar los nombres en vivo durante el juego.
+                </p>
+              )}
+
+              <button
+                className="btn-pokemon w-full py-3 rounded-2xl"
+                style={{ fontSize: "1.6rem", letterSpacing: "0.1em" }}
+                onClick={startConfig}
+              >
+                CONFIGURAR PREMIOS →
+              </button>
+            </div>
           </div>
         )}
 
         {/* ── EDITOR ────────────────────────────────────────────── */}
         {phase === "editor" && (
-          <PackEditor
-            packs={packs}
-            onChange={setPacks}
-            onConfirm={startGame}
-          />
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              justifyContent: "center",
+              overflowY: "auto",
+            }}
+          >
+            <PackEditor
+              packs={packs}
+              onChange={setPacks}
+              onConfirm={startGame}
+            />
+          </div>
         )}
 
         {/* ── GAME ──────────────────────────────────────────────── */}
         {phase === "game" && (
-          <div className="flex flex-col items-center gap-5 w-full">
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              overflow: "hidden",
+            }}
+          >
             {/* Status bar */}
-            <div className="glass-panel w-full px-5 py-3 flex items-center justify-between flex-wrap gap-3">
+            <div
+              className="glass-panel px-4 py-2 flex items-center justify-between flex-wrap gap-2"
+              style={{ flexShrink: 0 }}
+            >
               <div className="flex items-center gap-4">
                 <div>
                   <div className="text-white/40 text-xs uppercase tracking-widest">Ronda</div>
-                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.4rem", color: "#FFD700", letterSpacing: "0.05em" }}>
+                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.3rem", color: "#FFD700", letterSpacing: "0.05em" }}>
                     {currentRound}
                   </div>
                 </div>
-                <div className="w-px h-8 bg-white/10" />
+                <div className="w-px h-7 bg-white/10" />
                 <div>
                   <div className="text-white/40 text-xs uppercase tracking-widest">Tiros restantes</div>
-                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.4rem", color: "#FF8C00", letterSpacing: "0.05em" }}>
+                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.3rem", color: "#FF8C00", letterSpacing: "0.05em" }}>
                     {remainingSpins} / {spinsAvailable}
                   </div>
                 </div>
-                <div className="w-px h-8 bg-white/10" />
+                <div className="w-px h-7 bg-white/10" />
                 <div>
                   <div className="text-white/40 text-xs uppercase tracking-widest">Premios</div>
-                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.4rem", color: "#4ade80", letterSpacing: "0.05em" }}>
+                  <div style={{ fontFamily: "var(--font-bangers)", fontSize: "1.3rem", color: "#4ade80", letterSpacing: "0.05em" }}>
                     {unopened.length} / {packs.length}
                   </div>
                 </div>
@@ -426,183 +460,250 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Circular wheel picker */}
-            <WheelPicker
-              availablePacks={unopened}
-              allPacks={packs}
-              onWinner={handleWinner}
-              disabled={unopened.length === 0}
-            />
-
-            {/* Pack grid */}
-            <PackGrid
-              packs={packs}
-              highlightedNumber={highlightedPack}
-              onEditPack={openEditModal}
-            />
-
-            {/* History */}
-            {history.length > 0 && (
-              <div className="w-full glass-panel p-4">
-                <div className="text-white/40 text-xs uppercase tracking-widest mb-2">Premios entregados esta sesión</div>
-                <div className="flex flex-wrap gap-2">
-                  {[...history].reverse().map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs"
-                      style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.25)", color: "#FFD700" }}
-                    >
-                      <span style={{ fontFamily: "var(--font-bangers)" }}>#{h.packNumber}</span>
-                      {h.winner && (
-                        <span className="text-white/60">→ {h.winner}</span>
-                      )}
-                      {h.content && (
-                        <span className="text-white/40" style={{ maxWidth: 100, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                          {h.content}
-                        </span>
-                      )}
-                    </div>
-                  ))}
-                </div>
+            {/* Two-column layout: wheel LEFT, grid RIGHT */}
+            <div
+              style={{
+                flex: 1,
+                minHeight: 0,
+                display: "flex",
+                gap: 12,
+                alignItems: "stretch",
+              }}
+            >
+              {/* Left: circular wheel */}
+              <div
+                style={{
+                  flexShrink: 0,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <WheelPicker
+                  availablePacks={unopened}
+                  allPacks={packs}
+                  onWinner={handleWinner}
+                  disabled={unopened.length === 0}
+                  wheelSize={270}
+                />
               </div>
-            )}
+
+              {/* Right: pack grid + history */}
+              <div
+                style={{
+                  flex: 1,
+                  minHeight: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                }}
+              >
+                <div style={{ flex: 1, minHeight: 0 }}>
+                  <PackGrid
+                    packs={packs}
+                    highlightedNumber={highlightedPack}
+                    onEditPack={openEditModal}
+                    fillHeight
+                  />
+                </div>
+
+                {history.length > 0 && (
+                  <div
+                    className="glass-panel p-3"
+                    style={{ flexShrink: 0, maxHeight: 76, overflowY: "auto" }}
+                  >
+                    <div className="text-white/40 text-xs uppercase tracking-widest mb-1">Entregados esta sesión</div>
+                    <div className="flex flex-wrap gap-1.5">
+                      {[...history].reverse().map((h, i) => (
+                        <div
+                          key={i}
+                          className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs"
+                          style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.25)", color: "#FFD700" }}
+                        >
+                          <span style={{ fontFamily: "var(--font-bangers)" }}>#{h.packNumber}</span>
+                          {h.winner && <span className="text-white/60">→ {h.winner}</span>}
+                          {h.content && (
+                            <span className="text-white/40" style={{ maxWidth: 80, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                              {h.content}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
         {/* ── REVEAL ────────────────────────────────────────────── */}
         {phase === "reveal" && currentPack && (
-          <div className="flex flex-col items-center gap-3 w-full max-w-md mx-auto">
-            {currentWinner && (
-              <div
-                className="flex items-center gap-2 px-5 py-2 rounded-full winner-glow"
-                style={{
-                  background: "rgba(255,215,0,0.12)",
-                  border: "2px solid #FFD700",
-                }}
-              >
-                <span style={{ fontSize: 20 }}>🏆</span>
-                <span
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <div className="flex flex-col items-center gap-3 w-full max-w-md mx-auto">
+              {currentWinner && (
+                <div
+                  className="flex items-center gap-2 px-5 py-2 rounded-full winner-glow"
                   style={{
-                    fontFamily: "var(--font-bangers)",
-                    fontSize: "1.5rem",
-                    letterSpacing: "0.06em",
-                    color: "#FFD700",
+                    background: "rgba(255,215,0,0.12)",
+                    border: "2px solid #FFD700",
                   }}
                 >
-                  {currentWinner}
-                </span>
-              </div>
-            )}
-            <PackReveal
-              pack={currentPack}
-              onEdit={(content) => updatePackContent(currentPack.number, content)}
-              onClose={handleRevealClose}
-            />
+                  <span style={{ fontSize: 20 }}>🏆</span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-bangers)",
+                      fontSize: "1.5rem",
+                      letterSpacing: "0.06em",
+                      color: "#FFD700",
+                    }}
+                  >
+                    {currentWinner}
+                  </span>
+                </div>
+              )}
+              <PackReveal
+                pack={currentPack}
+                onEdit={(content) => updatePackContent(currentPack.number, content)}
+                onClose={handleRevealClose}
+              />
+            </div>
           </div>
         )}
 
         {/* ── BONUS (participant wheel) ──────────────────────────── */}
         {phase === "bonus" && (
-          <ParticipantWheel
-            participants={participants}
-            onParticipantsChange={setParticipants}
-            onResult={handleParticipantResult}
-          />
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+            }}
+          >
+            <ParticipantWheel
+              participants={participants}
+              onParticipantsChange={setParticipants}
+              onResult={handleParticipantResult}
+            />
+          </div>
         )}
 
         {/* ── SUMMARY ───────────────────────────────────────────── */}
         {phase === "summary" && (
-          <div className="flex flex-col items-center gap-7 w-full">
-            <div className="text-center">
-              <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "clamp(1.8rem, 5vw, 2.8rem)", letterSpacing: "0.06em" }}>
+          <div
+            style={{
+              flex: 1,
+              minHeight: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: 10,
+              overflow: "hidden",
+            }}
+          >
+            <div className="text-center" style={{ flexShrink: 0 }}>
+              <h2 className="text-gold" style={{ fontFamily: "var(--font-bangers)", fontSize: "clamp(1.5rem, 4vw, 2.2rem)", letterSpacing: "0.06em" }}>
                 🏆 ¡SUBASTA COMPLETADA! 🏆
               </h2>
-              <p className="text-white/50 mt-1">{history.length} premio{history.length !== 1 ? "s" : ""} entregado{history.length !== 1 ? "s" : ""} en {currentRound} ronda{currentRound !== 1 ? "s" : ""}</p>
+              <p className="text-white/50 text-sm mt-0.5">
+                {history.length} premio{history.length !== 1 ? "s" : ""} entregado{history.length !== 1 ? "s" : ""} en {currentRound} ronda{currentRound !== 1 ? "s" : ""}
+              </p>
             </div>
 
-            {/* History table */}
-            <div className="glass-panel w-full overflow-hidden">
-              <table className="w-full">
-                <thead>
-                  <tr style={{ borderBottom: "1px solid rgba(255,215,0,0.2)" }}>
-                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Tiro</th>
-                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Premio</th>
-                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ronda</th>
-                    {history.some((h) => h.winner) && (
-                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ganador</th>
-                    )}
-                    <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Contenido</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {history.map((h, i) => (
-                    <tr
-                      key={i}
-                      style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
-                      className="hover:bg-white/5 transition-colors"
-                    >
-                      <td className="px-5 py-3">
-                        <span className="text-white/30 text-sm">#{i + 1}</span>
-                      </td>
-                      <td className="px-5 py-3">
-                        <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.2rem", color: "#FFD700", letterSpacing: "0.04em" }}>
-                          PREMIO {h.packNumber}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3">
-                        <span className="text-white/50 text-sm">Ronda {h.roundIndex}</span>
-                      </td>
-                      {history.some((r) => r.winner) && (
+            {/* Scrollable table */}
+            <div
+              className="glass-panel overflow-hidden"
+              style={{ flex: 1, minHeight: 0 }}
+            >
+              <div style={{ height: "100%", overflowY: "auto" }}>
+                <table className="w-full">
+                  <thead>
+                    <tr style={{ borderBottom: "1px solid rgba(255,215,0,0.2)" }}>
+                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Tiro</th>
+                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Premio</th>
+                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ronda</th>
+                      {history.some((h) => h.winner) && (
+                        <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Ganador</th>
+                      )}
+                      <th className="text-left px-5 py-3 text-xs uppercase tracking-widest text-white/40">Contenido</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {history.map((h, i) => (
+                      <tr
+                        key={i}
+                        style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}
+                        className="hover:bg-white/5 transition-colors"
+                      >
                         <td className="px-5 py-3">
-                          {h.winner ? (
-                            <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", color: "#FFD700", letterSpacing: "0.04em" }}>
-                              🏆 {h.winner}
-                            </span>
+                          <span className="text-white/30 text-sm">#{i + 1}</span>
+                        </td>
+                        <td className="px-5 py-3">
+                          <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1.2rem", color: "#FFD700", letterSpacing: "0.04em" }}>
+                            PREMIO {h.packNumber}
+                          </span>
+                        </td>
+                        <td className="px-5 py-3">
+                          <span className="text-white/50 text-sm">Ronda {h.roundIndex}</span>
+                        </td>
+                        {history.some((r) => r.winner) && (
+                          <td className="px-5 py-3">
+                            {h.winner ? (
+                              <span style={{ fontFamily: "var(--font-bangers)", fontSize: "1rem", color: "#FFD700", letterSpacing: "0.04em" }}>
+                                🏆 {h.winner}
+                              </span>
+                            ) : (
+                              <span className="text-white/25 text-sm">—</span>
+                            )}
+                          </td>
+                        )}
+                        <td className="px-5 py-3">
+                          {h.content ? (
+                            <span className="text-white text-sm">{h.content}</span>
                           ) : (
-                            <span className="text-white/25 text-sm">—</span>
+                            <span className="text-white/25 text-sm italic">Sin contenido</span>
                           )}
                         </td>
-                      )}
-                      <td className="px-5 py-3">
-                        {h.content ? (
-                          <span className="text-white text-sm">{h.content}</span>
-                        ) : (
-                          <span className="text-white/25 text-sm italic">Sin contenido</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
 
-            {/* Unopened packs */}
-            {packs.filter((p) => !p.isOpened).length > 0 && (
-              <div className="w-full">
-                <div className="text-white/40 text-xs uppercase tracking-widest mb-3 text-center">
-                  Premios sin entregar ({packs.filter((p) => !p.isOpened).length})
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center">
+            {/* Footer row */}
+            <div style={{ flexShrink: 0, display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+              {packs.filter((p) => !p.isOpened).length > 0 && (
+                <div className="flex flex-wrap gap-1.5 items-center">
+                  <span className="text-white/40 text-xs">Sin entregar:</span>
                   {packs.filter((p) => !p.isOpened).map((p) => (
                     <span
                       key={p.number}
-                      className="text-xs px-3 py-1 rounded-full"
+                      className="text-xs px-2 py-0.5 rounded-full"
                       style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.4)" }}
                     >
                       #{p.number}
                     </span>
                   ))}
                 </div>
-              </div>
-            )}
-
-            <button
-              className="btn-pokemon px-12 py-4 rounded-2xl"
-              style={{ fontSize: "1.6rem", letterSpacing: "0.08em" }}
-              onClick={() => setPhase("config")}
-            >
-              🔄 NUEVA SUBASTA
-            </button>
+              )}
+              <button
+                className="btn-pokemon px-8 py-3 rounded-2xl ml-auto"
+                style={{ fontSize: "1.3rem", letterSpacing: "0.08em", flexShrink: 0 }}
+                onClick={() => setPhase("config")}
+              >
+                🔄 NUEVA SUBASTA
+              </button>
+            </div>
           </div>
         )}
       </div>

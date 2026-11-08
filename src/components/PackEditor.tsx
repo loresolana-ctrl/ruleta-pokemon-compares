@@ -55,7 +55,7 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
   };
 
   return (
-    <div className="glass-panel w-full max-w-2xl p-6 flex flex-col gap-5">
+    <div className="glass-panel w-full max-w-2xl p-4 flex flex-col gap-4">
       {/* Header */}
       <div className="flex items-start justify-between flex-wrap gap-3">
         <div>
@@ -129,7 +129,7 @@ export default function PackEditor({ packs, onChange, onConfirm }: PackEditorPro
       </div>
 
       {/* Pack list */}
-      <div className="flex flex-col gap-2" style={{ maxHeight: 380, overflowY: "auto" }}>
+      <div className="flex flex-col gap-2" style={{ maxHeight: 240, overflowY: "auto" }}>
         {filtered.map((pack) => (
           <div
             key={pack.number}
