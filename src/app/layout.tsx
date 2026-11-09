@@ -30,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <div style={{ position: "fixed", inset: 0, zIndex: 0, overflow: "hidden" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/bg-map.png"
+            src="bg-map.png"
             alt=""
             style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
           />

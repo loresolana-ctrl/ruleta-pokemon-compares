@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, Suspense } from "react";
 import { Pack, createPacks, getUnopenedPacks } from "@/lib/game-data";
 import PackEditor from "@/components/PackEditor";
 import WheelPicker from "@/components/WheelPicker";
@@ -87,7 +87,7 @@ function Logo() {
     <div className="flex items-center gap-3">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/logo.jpg"
+        src="logo.jpg"
         alt="Compares TCG"
         style={{
           width: 52,
@@ -297,8 +297,8 @@ export default function HomePage() {
         flexDirection: "column",
       }}
     >
-      <StarField />
-      {phase === "summary" && <Confetti />}
+      <Suspense><StarField /></Suspense>
+      {phase === "summary" && <Suspense><Confetti /></Suspense>}
 
       {/* ── HEADER ───────────────────────────────────────── */}
       <div
@@ -460,80 +460,59 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Two-column layout: wheel LEFT, grid RIGHT */}
+            {/* Ruleta centrada grande */}
             <div
               style={{
-                flex: 1,
-                minHeight: 0,
+                flexShrink: 0,
                 display: "flex",
-                gap: 12,
-                alignItems: "stretch",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              {/* Left: circular wheel */}
-              <div
-                style={{
-                  flexShrink: 0,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <WheelPicker
-                  availablePacks={unopened}
-                  allPacks={packs}
-                  onWinner={handleWinner}
-                  disabled={unopened.length === 0}
-                  wheelSize={270}
-                />
-              </div>
-
-              {/* Right: pack grid + history */}
-              <div
-                style={{
-                  flex: 1,
-                  minHeight: 0,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 8,
-                }}
-              >
-                <div style={{ flex: 1, minHeight: 0 }}>
-                  <PackGrid
-                    packs={packs}
-                    highlightedNumber={highlightedPack}
-                    onEditPack={openEditModal}
-                    fillHeight
-                  />
-                </div>
-
-                {history.length > 0 && (
-                  <div
-                    className="glass-panel p-3"
-                    style={{ flexShrink: 0, maxHeight: 76, overflowY: "auto" }}
-                  >
-                    <div className="text-white/40 text-xs uppercase tracking-widest mb-1">Entregados esta sesión</div>
-                    <div className="flex flex-wrap gap-1.5">
-                      {[...history].reverse().map((h, i) => (
-                        <div
-                          key={i}
-                          className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs"
-                          style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.25)", color: "#FFD700" }}
-                        >
-                          <span style={{ fontFamily: "var(--font-bangers)" }}>#{h.packNumber}</span>
-                          {h.winner && <span className="text-white/60">→ {h.winner}</span>}
-                          {h.content && (
-                            <span className="text-white/40" style={{ maxWidth: 80, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                              {h.content}
-                            </span>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <WheelPicker
+                availablePacks={unopened}
+                allPacks={packs}
+                onWinner={handleWinner}
+                disabled={unopened.length === 0}
+                wheelSize={400}
+              />
             </div>
+
+            {/* Premios de la subasta abajo */}
+            <div style={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
+              <PackGrid
+                packs={packs}
+                highlightedNumber={highlightedPack}
+                onEditPack={openEditModal}
+                fillHeight
+              />
+            </div>
+
+            {history.length > 0 && (
+              <div
+                className="glass-panel p-3"
+                style={{ flexShrink: 0, maxHeight: 64, overflowY: "auto" }}
+              >
+                <div className="text-white/40 text-xs uppercase tracking-widest mb-1">Entregados</div>
+                <div className="flex flex-wrap gap-1.5">
+                  {[...history].reverse().map((h, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs"
+                      style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.25)", color: "#FFD700" }}
+                    >
+                      <span style={{ fontFamily: "var(--font-bangers)" }}>#{h.packNumber}</span>
+                      {h.winner && <span className="text-white/60">→ {h.winner}</span>}
+                      {h.content && (
+                        <span className="text-white/40" style={{ maxWidth: 80, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                          {h.content}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         )}
 
